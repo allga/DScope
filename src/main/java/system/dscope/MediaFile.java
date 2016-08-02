@@ -1,48 +1,35 @@
 package system.dscope;
 
 import java.io.*;
-
+import java.nio.file.Files;
+import java.io.IOException;
 /**
  * Created by Olga on 01.08.2016.
  */
 public class MediaFile {
-    private File img;
-    private String fileName;
+    private File fileContent;
 
-    public MediaFile(String path, String fileName) {
-        this.img = new File(path);
-        this.fileName = fileName;
+    public MediaFile(String path) {
+        this.fileContent = new File(path);
     }
 
-    public MediaFile() {
-
+    public File getFileContent() {
+        return fileContent;
     }
 
-    public File getPath() {
-        return img;
-    }
+    public void makeCopy(MediaFile file, int count) throws IOException {
+        for (int i = 0; i < count; i++) {
 
-    public void setPath(File img) {
-        this.img = img;
-    }
+            System.out.println(file.getFileContent().getParent());
+            System.out.println(file.getFileContent().getName());
+            System.out.println("---------------------");
+            String destPath = String.format("%s\\%d%s", file.getFileContent().getParent(), i, file.getFileContent().getName());
+            System.out.println(destPath);
 
-    public void makeCopy(MediaFile img, int count) throws FileNotFoundException {
-//        InputStream inputStream = new FileInputStream(img.getPass());
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(
-                    new InputStreamReader(new FileInputStream(img.getPath())));
-        }
-        catch (FileNotFoundException e1) {
-            System.out.println("File not found");
-            System.exit(0);
+            File dest = new File(destPath);
+            Files.copy(file.getFileContent().toPath(), dest.toPath());
         }
 
-        for (int i = 00; i < count; i++) {
-            MediaFile copy = new MediaFile();
-            copy.setPath(img.getPath());
 
-            FileOutputStream outputStream = new FileOutputStream("");
-        }
     }
 }
